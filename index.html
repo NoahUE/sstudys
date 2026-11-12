@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102b4e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="S.Study's">
+<title>S.Study's | Matemática Financiera</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<style>
+:root{--navy:#102b4e;--navy2:#173e68;--blue:#2d65a0;--pale:#edf3fa;--ink:#1b2b3e;--muted:#718096;--line:#e3eaf2;--white:#fff;--bg:#f5f7fb;--green:#16835d;--shadow:0 12px 35px rgba(20,48,78,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.topbar{height:72px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100vw - 1180px)/2));position:sticky;top:0;z-index:5;box-shadow:0 5px 18px #102b4e22}.brand{display:flex;align-items:center;gap:11px}.brandmark{width:39px;height:39px;border-radius:12px;background:white;color:var(--navy);display:grid;place-items:center;font:800 22px Manrope}.brandname{font:800 19px Manrope;letter-spacing:-.5px}.brandtag{font-size:9px;letter-spacing:1.6px;color:#b9cce0;margin-top:2px}.topright{font-size:12px;color:#d9e5f2}.layout{max-width:1180px;margin:auto;padding:26px 20px 100px;display:grid;grid-template-columns:225px 1fr;gap:24px}.sidebar{align-self:start;position:sticky;top:94px;background:white;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow)}.navlabel{font-size:10px;color:#91a0b2;font-weight:700;letter-spacing:1.3px;padding:10px 11px}.navbtn{width:100%;border:0;background:transparent;color:#607187;text-align:left;padding:12px 11px;border-radius:11px;font-weight:600;font-size:13px;display:flex;gap:11px;align-items:center;margin:2px 0}.navbtn.active,.navbtn:hover{background:var(--pale);color:var(--navy)}.navico{width:20px;text-align:center;font-size:16px}.sidefoot{border-top:1px solid var(--line);margin-top:12px;padding:14px 10px 4px;color:#8a98a9;font-size:11px;line-height:1.6}.main{min-width:0}.page{display:none}.page.active{display:block}.eyebrow{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:1.4px;text-transform:uppercase}.h1{font:800 clamp(25px,4vw,34px) Manrope;color:var(--navy);letter-spacing:-1px;margin:7px 0}.sub{color:var(--muted);font-size:14px;line-height:1.65;margin:0 0 22px}.hero{background:linear-gradient(120deg,#102b4e,#1e4d7d);border-radius:22px;padding:27px;color:white;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:var(--shadow)}.hero h2{font:800 25px Manrope;margin:8px 0}.hero p{color:#d0deec;font-size:13px;line-height:1.6;max-width:450px}.hero .eyebrow{color:#b9d4ef}.hero-art{font-size:64px;opacity:.95;padding:12px}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--navy);color:white;font-weight:700;font-size:12px}.btn:hover{background:var(--navy2)}.btn.light{background:white;color:var(--navy)}.btn.outline{background:white;color:var(--navy);border:1px solid #cbd8e6}.btn:disabled{opacity:.5;cursor:not-allowed}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:17px 0}.stat,.card{background:white;border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:var(--shadow)}.stat small{color:var(--muted);font-size:11px}.stat strong{display:block;font:800 24px Manrope;color:var(--navy);margin-top:5px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 12px}.sectionhead h3{font:800 16px Manrope;color:var(--navy);margin:0}.sectionhead span{font-size:11px;color:var(--muted)}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.topic{display:flex;gap:13px;align-items:flex-start}.topicicon{width:40px;height:40px;border-radius:12px;background:var(--pale);display:grid;place-items:center;font-size:19px;flex-shrink:0}.topic h4{margin:2px 0 5px;color:var(--navy);font-size:13px}.topic p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}.topic button{margin-top:10px}.paneltitle{font:800 17px Manrope;color:var(--navy);margin:0 0 6px}.muted{color:var(--muted);font-size:12px;line-height:1.6}.field{margin:12px 0}.field label{display:block;color:#52657a;font-size:11px;font-weight:700;margin:0 0 6px}.field input,.field textarea,.field select{width:100%;border:1px solid #dce5ef;border-radius:10px;padding:12px;background:#fbfcfe;color:var(--ink);outline:none}.field input:focus,.field textarea:focus{border-color:#6e9ac8;box-shadow:0 0 0 3px #2d65a015}.field textarea{min-height:105px;resize:vertical}.formula{border:1px solid var(--line);background:white;border-radius:14px;padding:16px;margin:10px 0}.formula h4{color:var(--navy);font-size:13px;margin:0 0 8px}.equation{background:#f0f5fb;border-radius:9px;padding:12px;color:#12375f;font:600 15px Georgia,serif;overflow-wrap:anywhere}.formula p{font-size:12px;color:var(--muted);line-height:1.6;margin:9px 0}.tag{display:inline-block;background:#edf3fa;color:#315c86;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:700;margin:0 5px 5px 0}.result{background:#edf5ff;border:1px solid #d6e5f6;padding:15px;border-radius:12px;margin-top:14px}.result strong{display:block;color:var(--navy);font:800 22px Manrope;margin-top:5px}.drop{border:1.5px dashed #aebfd1;border-radius:14px;padding:25px;text-align:center;background:#f8fbff}.drop input{display:none}.filelist{margin-top:10px}.fileitem{padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin-top:7px;font-size:12px;display:flex;justify-content:space-between;gap:10px}.chatlog{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;min-height:220px;max-height:480px;overflow:auto;padding:14px}.bubble{max-width:92%;padding:12px 14px;border-radius:13px;margin:8px 0;font-size:13px;line-height:1.65;white-space:pre-wrap}.bubble.ai{background:white;border:1px solid var(--line);color:#34475b}.bubble.user{background:var(--navy);color:white;margin-left:auto}.chatinput{display:flex;gap:8px;margin-top:10px}.chatinput input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:12px}.notice{padding:11px 13px;background:#fff8e8;border:1px solid #f0dfb6;color:#77591d;border-radius:10px;font-size:11px;line-height:1.55;margin:12px 0}.success{color:var(--green)}.mobilebar{display:none}.footer{text-align:center;color:#9aa7b5;font-size:10px;margin-top:28px}.hidden{display:none!important}
+@media(max-width:760px){.topbar{height:62px;padding:0 16px}.topright{font-size:10px}.layout{display:block;padding:18px 14px 95px}.sidebar{display:none}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom));z-index:10;justify-content:space-around}.mobilebar .navbtn{width:auto;flex-direction:column;gap:3px;font-size:9px;padding:7px 8px;margin:0}.mobilebar .navico{font-size:17px}.hero{padding:21px}.hero-art{font-size:42px;padding:0}.hero h2{font-size:21px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:19px}.stat small{font-size:10px}.grid2{grid-template-columns:1fr}.h1{font-size:27px}.sectionhead{margin-top:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+ <div class="brand"><div class="brandmark">S.</div><div><div class="brandname">S.Study's</div><div class="brandtag">FINANCIAL MATHEMATICS</div></div></div>
+ <div class="topright">✦ Tu espacio inteligente de estudio</div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+ <div class="navlabel">MENÚ PRINCIPAL</div>
+ <button class="navbtn active" data-page="home"><span class="navico">⌂</span>Inicio</button>
+ <button class="navbtn" data-page="formulas"><span class="navico">ƒ</span>Biblioteca de fórmulas</button>
+ <button class="navbtn" data-page="calculator"><span class="navico">▦</span>Calculadora financiera</button>
+ <button class="navbtn" data-page="tutor"><span class="navico">✎</span>Tutor sin IA</button>
+ <button class="navbtn" data-page="materials"><span class="navico">▤</span>Material de estudio</button>
+ <button class="navbtn" data-page="practice"><span class="navico">◎</span>Práctica</button>
+ <div class="sidefoot">Aprende a tu ritmo.<br><b>S.Study's</b> · Versión inicial</div>
+</aside>
+<main class="main">
+<section class="page active" id="home">
+ <div class="eyebrow">BIENVENIDO A TU AULA FINANCIERA</div><h1 class="h1">Aprende con claridad.<br>Resuelve con confianza.</h1>
+ <p class="sub">Un espacio para comprender las matemáticas financieras desde sus fundamentos hasta los problemas más avanzados.</p>
+ <div class="hero"><div><div class="eyebrow">TU TUTOR DE ESTUDIO</div><h2>Las fórmulas ahora tienen sentido.</h2><p>Estudia conceptos, analiza tus materiales y recibe explicaciones paso a paso con ayuda de inteligencia artificial.</p><button class="btn light" onclick="go('tutor')">Consultar al tutor&nbsp; →</button></div><div class="hero-art">∑</div></div>
+ <div class="stats"><div class="stat"><small>Fórmulas disponibles</small><strong>08</strong></div><div class="stat"><small>Temas principales</small><strong>06</strong></div><div class="stat"><small>Tu progreso</small><strong id="progress">0%</strong></div></div>
+ <div class="sectionhead"><h3>Rutas de aprendizaje</h3><span>Comienza por lo esencial</span></div>
+ <div class="grid2">
+  <div class="card topic"><div class="topicicon">◷</div><div><h4>Interés simple y compuesto</h4><p>Capital, tasa, tiempo y crecimiento del dinero.</p><button class="btn outline" onclick="go('formulas')">Explorar tema</button></div></div>
+  <div class="card topic"><div class="topicicon">⌛</div><div><h4>Valor presente y futuro</h4><p>Equivalencia del dinero en diferentes momentos.</p><button class="btn outline" onclick="go('formulas')">Explorar tema</button></div></div>
+  <div class="card topic"><div class="topicicon">▤</div><div><h4>Anualidades y rentas</h4><p>Pagos periódicos vencidos y anticipados.</p><button class="btn outline" onclick="go('formulas')">Explorar tema</button></div></div>
+  <div class="card topic"><div class="topicicon">▥</div><div><h4>Amortización</h4><p>Cuotas, intereses, saldo y tablas de pago.</p><button class="btn outline" onclick="go('formulas')">Explorar tema</button></div></div>
+ </div>
+</section>
+<section class="page" id="formulas">
+ <div class="eyebrow">CENTRO DE CONOCIMIENTO</div><h1 class="h1">Biblioteca de fórmulas</h1><p class="sub">Consulta las expresiones fundamentales, identifica sus variables y aprende cuándo utilizar cada una.</p>
+ <div class="field"><input id="formulaSearch" placeholder="Buscar: interés, tasa, presente, anualidad..." oninput="filterFormulas()"></div>
+ <div id="formulaList"></div>
+</section>
+<section class="page" id="calculator">
+ <div class="eyebrow">HERRAMIENTAS DE CÁLCULO</div><h1 class="h1">Calculadora financiera</h1><p class="sub">Introduce los datos y observa el resultado. Mantén las unidades de tasa y tiempo consistentes.</p>
+ <div class="card">
+  <div class="field"><label>Tipo de operación</label><select id="calcType" onchange="renderCalc()"><option value="compound">Interés compuesto / valor futuro</option><option value="present">Valor presente compuesto</option><option value="simple">Interés simple</option><option value="rate">Tasa efectiva por período</option><option value="annuity">Cuota de préstamo (anualidad vencida)</option></select></div>
+  <div id="calcFields"></div><button class="btn" onclick="calculate()">Calcular resultado</button><div id="calcResult"></div>
+  <div class="notice">Importante: la tasa debe expresarse en decimal (por ejemplo, 12% = 0,12) y el tiempo en períodos compatibles con la tasa. La calculadora no sustituye la revisión del planteamiento.</div>
+ </div>
+</section>
+<section class="page" id="tutor">
+ <div class="eyebrow">SOLUCIONADOR LOCAL</div><h1 class="h1">Tutor matemático</h1><p class="sub">Resuelve ejercicios compatibles sin claves API ni consultas de IA generativa. Puedes escribir el enunciado o reconocer texto de una fotografía.</p>
+ <div class="card">
+  <div class="sectionhead" style="margin-top:0"><h3>Ayuda paso a paso</h3><div><button class="btn outline" style="padding:7px 9px" onclick="clearHistory()">Limpiar</button></div></div>
+  <div class="chatlog" id="chatlog"><div class="bubble ai">¡Hola! Soy el tutor de S.Study's. Puedo ayudarte con interés simple y compuesto, tasas, valor presente y futuro, anualidades, amortización y equivalencias financieras.\n\nEscribe los datos de tu ejercicio. Puedo resolver interés simple, interés compuesto y valor presente/futuro cuando el enunciado contiene capital, tasa y tiempo.</div></div>
+  <div class="chatinput"><input id="question" placeholder="Ej.: capital 1000000, tasa 10%, tiempo 2 años" onkeydown="if(event.key==='Enter')askAI()"><button class="btn" onclick="askAI()">Resolver</button></div>
+  <div class="notice">El solucionador funciona localmente. No interpreta cualquier pregunta libre; si no identifica con seguridad los datos, te pedirá que los escribas con claridad.</div>
+ </div>
+</section>
+<section class="page" id="materials">
+ <div class="eyebrow">TUS RECURSOS</div><h1 class="h1">Material de estudio</h1><p class="sub">Carga imágenes, PDF y archivos de texto, o agrega un enlace como referencia para tu consulta.</p>
+ <div class="card">
+  <h3 class="paneltitle">Subir documentos o fotografías</h3><p class="muted">Selecciona una foto de un ejercicio, un PDF o un archivo de texto. El reconocimiento OCR se ejecuta en el navegador. Funciona mejor con texto impreso y escritura manuscrita clara; revisa y corrige el texto antes de resolverlo.</p>
+  <label class="drop" for="files"><div style="font-size:30px">⇧</div><b style="color:var(--navy)">Toca para seleccionar archivos</b><div class="muted">Fotos · PDF con texto · TXT · hasta 12 MB por archivo</div><input id="files" type="file" accept="image/*,.pdf,.txt,.md,.docx,.pptx,.xlsx,.csv" multiple onchange="handleFiles(this.files)"></label>
+  <div id="fileList" class="filelist"></div>
+  <div class="field"><label>Texto reconocido de la foto o documento (puedes corregirlo)</label><textarea id="recognizedText" placeholder="Aquí aparecerá el texto detectado. Si la letra manuscrita no se reconoce bien, corrígela aquí. El OCR no garantiza leer toda la escritura a mano."></textarea></div>
+  <button class="btn outline" onclick="solveRecognized()">Resolver el texto reconocido</button>
+  <div class="field"><label>Enlace de referencia</label><input id="studyLink" type="url" placeholder="https://sitio.com/material-de-estudio"></div>
+  <div class="field"><label>¿Qué necesitas aprender de este material?</label><textarea id="materialQuestion" placeholder="Ej.: Explícame los ejercicios 2 y 3, identifica las fórmulas y desarrolla cada paso."></textarea></div>
+  <button class="btn" onclick="sendMaterial()">Enviar al solucionador</button>
+  <div class="notice">Los archivos se procesan localmente en esta pestaña y el contenido seleccionado se envía al servidor únicamente cuando pulsas “Enviar al solucionador”. El enlace se adjunta como referencia; para leer automáticamente páginas web se debe añadir un extractor de enlaces seguro en el servidor.</div>
+ </div>
+</section>
+<section class="page" id="practice">
+ <div class="eyebrow">COMPRUEBA LO QUE SABES</div><h1 class="h1">Práctica guiada</h1><p class="sub">Resuelve una pregunta rápida y revisa la explicación.</p>
+ <div class="card">
+  <span class="tag">INTERÉS COMPUESTO</span><h3 class="paneltitle">Un capital de $1.000.000 se invierte al 10% por período durante 2 períodos.</h3>
+  <p class="muted">¿Cuál será el valor futuro al finalizar el segundo período?</p>
+  <div class="field"><label>Selecciona tu respuesta</label><select id="practiceAnswer"><option value="">Elige una opción</option><option value="1100000">$1.100.000</option><option value="1210000">$1.210.000</option><option value="1200000">$1.200.000</option></select></div>
+  <button class="btn" onclick="checkPractice()">Comprobar respuesta</button><div id="practiceResult"></div>
+ </div>
+</section>
+<div class="footer">S.Study's · Aprende matemáticas financieras con criterio.</div>
+</main>
+</div>
+<nav class="mobilebar">
+ <button class="navbtn active" data-page="home"><span class="navico">⌂</span>Inicio</button><button class="navbtn" data-page="formulas"><span class="navico">ƒ</span>Fórmulas</button><button class="navbtn" data-page="calculator"><span class="navico">▦</span>Calcular</button><button class="navbtn" data-page="tutor"><span class="navico">✎</span>Tutor</button><button class="navbtn" data-page="materials"><span class="navico">▤</span>Archivos</button>
+</nav>
+</div>
+<script>
+// El tutor funciona localmente: no usa API ni claves externas.
+let materialText="", materialImages=[], materialNames=[];
+const formulas=[
+{title:"Interés simple",tag:"Interés",eq:"I = C × i × n",desc:"El interés se calcula siempre sobre el capital inicial. C es el capital, i la tasa por período y n el número de períodos.",vars:"I: interés · C: capital · i: tasa periódica · n: períodos",example:"Si C = 1.000.000, i = 0,02 mensual y n = 3 meses: I = 1.000.000 × 0,02 × 3 = 60.000."},
+{title:"Monto con interés simple",tag:"Interés",eq:"M = C(1 + i × n)",desc:"Suma el capital inicial y el interés simple generado durante n períodos.",vars:"M: monto final · C: capital inicial · i: tasa por período · n: períodos",example:"Con C = 1.000.000, i = 2% mensual y n = 3: M = 1.060.000."},
+{title:"Valor futuro compuesto",tag:"Valor futuro",eq:"VF = VP(1 + i)ⁿ",desc:"Capitaliza los intereses: cada período los intereses se incorporan al saldo y también generan intereses.",vars:"VF: valor futuro · VP: valor presente · i: tasa por período · n: períodos",example:"VP = 1.000.000, i = 10% y n = 2: VF = 1.000.000 × 1,1² = 1.210.000."},
+{title:"Valor presente compuesto",tag:"Valor presente",eq:"VP = VF / (1 + i)ⁿ",desc:"Descuenta un valor futuro para conocer su equivalente hoy, con una tasa efectiva por período.",vars:"VP: valor presente · VF: valor futuro · i: tasa por período · n: períodos",example:"VF = 1.210.000, i = 10% y n = 2: VP = 1.000.000."},
+{title:"Tasa efectiva por período",tag:"Tasas",eq:"i = (1 + j/m) − 1",desc:"Si j es una tasa nominal anual convertible m veces al año, la tasa efectiva de cada período de conversión es j/m. Para convertir a efectiva anual: EA = (1 + j/m)ᵐ − 1.",vars:"j: tasa nominal anual en decimal · m: conversiones por año",example:"j = 24% nominal anual mes vencido: tasa mensual = 0,24/12 = 2%; EA = 1,02¹² − 1."},
+{title:"Anualidad vencida: valor presente",tag:"Anualidades",eq:"VP = R × [1 − (1 + i)⁻ⁿ] / i",desc:"Valor presente de pagos iguales realizados al final de cada período. Para i = 0, usa VP = R × n.",vars:"R: pago periódico · i: tasa por período · n: número de pagos",example:"Es la base para calcular el valor actual de cuotas iguales vencidas."},
+{title:"Cuota de préstamo vencido",tag:"Amortización",eq:"R = VP × i / [1 − (1 + i)⁻ⁿ]",desc:"Calcula la cuota constante de un préstamo con pagos al final de cada período y tasa constante. No incluye seguros, comisiones ni cargos adicionales.",vars:"R: cuota · VP: préstamo · i: tasa por período · n: número de cuotas",example:"Verifica que tasa y frecuencia de cuotas estén expresadas en el mismo período."},
+{title:"Descuento compuesto racional",tag:"Descuento",eq:"VP = VF / (1 + i)ⁿ",desc:"Descuento racional compuesto: es la operación inversa de capitalizar a interés compuesto.",vars:"VP: valor actual · VF: valor al vencimiento · i: tasa por período · n: períodos",example:"Primero identifica la fecha focal y la tasa aplicable al intervalo."}
+];
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function renderFormulas(list=formulas){document.getElementById('formulaList').innerHTML=list.map(f=>`<article class="formula"><span class="tag">${f.tag}</span><h4>${f.title}</h4><div class="equation">${f.eq}</div><p>${f.desc}</p><p><b>Variables:</b> ${f.vars}</p><p><b>Ejemplo:</b> ${f.example}</p></article>`).join('')||'<p class="muted">No se encontraron fórmulas.</p>'}
+function filterFormulas(){let q=document.getElementById('formulaSearch').value.toLowerCase();renderFormulas(formulas.filter(f=>(f.title+f.tag+f.desc+f.vars).toLowerCase().includes(q)))}
+renderFormulas();restoreHistory();
+function renderCalc(){let t=document.getElementById('calcType').value;let fields={compound:[['pv','Capital / valor presente','1000000'],['rate','Tasa por período (decimal)','0.10'],['periods','Número de períodos','2']],present:[['fv','Valor futuro','1210000'],['rate','Tasa por período (decimal)','0.10'],['periods','Número de períodos','2']],simple:[['pv','Capital inicial','1000000'],['rate','Tasa por período (decimal)','0.02'],['periods','Número de períodos','3']],rate:[['nominal','Tasa nominal anual (decimal)','0.24'],['m','Conversiones por año','12']],annuity:[['pv','Valor del préstamo','10000000'],['rate','Tasa por período (decimal)','0.02'],['periods','Número de cuotas','12']]};document.getElementById('calcFields').innerHTML=fields[t].map(([id,label,val])=>`<div class="field"><label>${label}</label><input id="${id}" type="number" step="any" value="${val}"></div>`).join('');document.getElementById('calcResult').innerHTML=''}
+function val(id){return Number(document.getElementById(id).value)}
+function money(x){return x.toLocaleString('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:2})}
+function calculate(){let t=document.getElementById('calcType').value,r=0,detail='';if(t==='compound'||t==='present'||t==='simple'||t==='annuity'){let i=val('rate'),n=val('periods'),p=val('pv');if(!Number.isFinite(i)||!Number.isFinite(n)||n<0||i<0){alert('Revisa los datos: la tasa y los períodos deben ser válidos.');return}if(t==='compound'){r=p*Math.pow(1+i,n);detail=`VF = ${p} × (1 + ${i})^${n}`}if(t==='present'){let f=val('fv');r=f/Math.pow(1+i,n);detail=`VP = ${f} / (1 + ${i})^${n}`}if(t==='simple'){r=p*(1+i*n);detail=`M = ${p} × (1 + ${i} × ${n})`}if(t==='annuity'){if(i===0){r=p/n}else{r=p*i/(1-Math.pow(1+i,-n))}detail=`R = ${p} × ${i} / [1 − (1 + ${i})^−${n}]`}}else{let j=val('nominal'),m=val('m');if(m<=0){alert('Las conversiones por año deben ser mayores que cero.');return}r=Math.pow(1+j/m,m)-1;detail=`EA = (1 + ${j}/${m})^${m} − 1`}if(!Number.isFinite(r)){alert('No fue posible calcular. Revisa los valores.');return}document.getElementById('calcResult').innerHTML=`<div class="result"><span class="muted">Resultado</span><strong>${t==='rate'?(r*100).toFixed(4)+'%':money(r)}</strong><p class="muted">${detail}</p><p class="muted">Revisa que la tasa y los períodos correspondan a la misma frecuencia.</p></div>`}
+document.getElementById('calcType').addEventListener('change',renderCalc);renderCalc();
+async function handleFiles(files){
+ const list=document.getElementById('fileList'), box=document.getElementById('recognizedText');
+ for(const file of files){
+  if(file.size>12*1024*1024){list.innerHTML+=`<div class="fileitem">⚠ ${file.name}: supera 12 MB</div>`;continue}
+  materialNames.push(file.name);list.innerHTML+=`<div class="fileitem"><span>▤ ${file.name}</span><span>${(file.size/1024).toFixed(0)} KB</span></div>`;
+  try{
+   if(file.type==='application/pdf'){
+    if(!window.pdfjsLib)throw Error('No se pudo cargar el lector PDF');
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise,out='';
+    for(let p=1;p<=Math.min(pdf.numPages,25);p++){let page=await pdf.getPage(p),c=await page.getTextContent();out+=c.items.map(x=>x.str).join(' ')+'\n'}
+    box.value+=(box.value?'\n\n':'')+`[PDF ${file.name}]\n${out}`;
+   }else if(file.type.startsWith('image/')){
+    if(!window.Tesseract)throw Error('No se pudo cargar el motor OCR. Comprueba tu conexión a internet.');
+    list.innerHTML+=`<div class="fileitem" id="ocr-${materialImages.length}">Reconociendo texto de ${file.name}…</div>`;
+    const worker=await Tesseract.createWorker('spa+eng');
+    const result=await worker.recognize(file);await worker.terminate();
+    box.value+=(box.value?'\n\n':'')+`[Foto: ${file.name}]\n${result.data.text}`;
+    document.getElementById(`ocr-${materialImages.length}`).textContent=`✓ OCR terminado: ${file.name}`;materialImages.push(file.name);
+   }else if(file.type==='text/plain'||file.type==='text/markdown'){
+    box.value+=(box.value?'\n\n':'')+`[${file.name}]\n${await file.text()}`;
+   }else{list.innerHTML+=`<div class="fileitem">Este formato aún no se puede leer sin un convertidor: ${file.name}. Convierte el documento a PDF o imagen.</div>`}
+  }catch(e){list.innerHTML+=`<div class="fileitem">No se pudo leer ${file.name}: ${e.message}</div>`}
+ }
+}
+
+function sendMaterial(){solveRecognized()}
+function solveRecognized(){const text=document.getElementById('recognizedText').value.trim(),q=document.getElementById('materialQuestion').value.trim();if(!text&&!q){addBubble('Primero selecciona una foto o escribe el ejercicio.','ai');go('tutor');return}go('tutor');const prompt=(q?q+'\n':'')+text;document.getElementById('question').value=prompt;askAI(prompt)}
+
+function addBubble(text,who){let el=document.createElement('div');el.className='bubble '+who;el.textContent=text;let log=document.getElementById('chatlog');log.appendChild(el);log.scrollTop=log.scrollHeight;try{let history=[...log.querySelectorAll('.bubble')].map(b=>({text:b.textContent,who:b.classList.contains('user')?'user':'ai'})).slice(-80);localStorage.setItem('sstudys_chat_history',JSON.stringify(history))}catch(e){}} 
+function restoreHistory(){try{let h=JSON.parse(localStorage.getItem('sstudys_chat_history')||'[]');if(h.length){let log=document.getElementById('chatlog');log.innerHTML='';h.forEach(m=>{let el=document.createElement('div');el.className='bubble '+(m.who==='user'?'user':'ai');el.textContent=m.text;log.appendChild(el)})}}catch(e){}}
+function clearHistory(){localStorage.removeItem('sstudys_chat_history');let log=document.getElementById('chatlog');log.innerHTML='<div class="bubble ai">Historial local borrado. ¿Qué tema financiero quieres estudiar ahora?</div>';}
+function extractNumber(text,patterns){for(const re of patterns){const m=text.match(re);if(m){const raw=m[1].replace(/\s/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.');const n=Number(raw);if(Number.isFinite(n))return n}}return null}
+function solveFinancial(raw){const t=raw.toLowerCase().replace(/\$/g,' ').replace(/,/g,'.');
+ const capital=extractNumber(t,[/(?:capital|principal|vp|valor presente|inversion inicial|invierte)\s*(?:es|de|:|=)?\s*([\d.]+)/, /([\d.]+)\s*(?:pesos|cop)\b/]);
+ let rate=extractNumber(t,[/(?:tasa|inter[eé]s|i)\s*(?:es|de|:|=)?\s*([\d.]+)\s*%/,/([\d.]+)\s*%/]);
+ const periods=extractNumber(t,[/(?:tiempo|plazo|periodos|per[ií]odos|durante|por)\s*(?:es|de|:|=)?\s*([\d.]+)/]);
+ if(capital===null||rate===null||periods===null)return {ok:false,message:'No pude identificar con seguridad capital, tasa y tiempo. Escribe, por ejemplo: “capital 1000000, tasa 10%, tiempo 2 períodos”. Si el texto viene de una foto manuscrita, corrige primero los caracteres en Material de estudio.'};
+ const i=rate>1?rate/100:rate,n=periods,C=capital;
+ const simple=/simple/.test(t),present=/valor presente|descontar|hoy|presente/.test(t)&&/(?:futuro|vencimiento|recibir[aá]?)/.test(t);
+ let result,formula,steps,title;
+ if(present){const future=extractNumber(t,[/(?:valor futuro|vf|monto final|recibir[aá]?)\s*(?:es|de|:|=)?\s*([\d.]+)/]);if(future===null)return {ok:false,message:'Detecté una pregunta de valor presente, pero falta el valor futuro (VF). Añádelo al enunciado.'};result=future/Math.pow(1+i,n);formula='VP = VF / (1 + i)ⁿ';steps=[`VF = ${money(future)}`,`i = ${(i*100).toFixed(4)}% por período`,`n = ${n}`,`VP = ${money(future)} / (1 + ${i})^${n}`,`VP = ${money(result)}`];title='Valor presente compuesto'}
+ else if(simple){result=C*(1+i*n);formula='M = C × (1 + i × n)';steps=[`C = ${money(C)}`,`i = ${(i*100).toFixed(4)}% por período`,`n = ${n}`,`M = ${C} × (1 + ${i} × ${n})`,`M = ${money(result)}`];title='Interés simple'}
+ else{result=C*Math.pow(1+i,n);formula='VF = VP × (1 + i)ⁿ';steps=[`VP = ${money(C)}`,`i = ${(i*100).toFixed(4)}% por período`,`n = ${n}`,`VF = ${C} × (1 + ${i})^${n}`,`VF = ${money(result)}`];title='Interés compuesto'}
+ return {ok:true,message:`${title}\n\nDatos identificados:\n• Capital / valor presente: ${money(C)}\n• Tasa: ${(i*100).toFixed(4)}% por período\n• Tiempo: ${n} períodos\n\nFórmula:\n${formula}\n\nProcedimiento:\n${steps.map((x,j)=>`${j+1}. ${x}`).join('\n')}\n\nResultado: ${money(result)}\n\nImportante: asumí que la tasa y el tiempo están expresados en la misma unidad. Si la tasa es anual y el tiempo está en meses, convierte uno de los dos antes de aceptar el resultado.`};
+}
+function askAI(custom){const input=custom||document.getElementById('question').value.trim();if(!input)return;addBubble(input,'user');document.getElementById('question').value='';const result=solveFinancial(input);addBubble(result.message,'ai')}
+
+function checkPractice(){let v=document.getElementById('practiceAnswer').value,el=document.getElementById('practiceResult');if(!v){el.innerHTML='<p class="muted">Selecciona una respuesta.</p>';return}let ok=v==='1210000';el.innerHTML=ok?'<div class="result"><b class="success">¡Correcto!</b><p>VF = 1.000.000 × (1 + 0,10)² = 1.000.000 × 1,21 = $1.210.000. Los intereses del primer período también generan intereses en el segundo.</p></div>':'<div class="result"><b>Revisemos el procedimiento.</b><p>VF = 1.000.000 × (1 + 0,10)² = $1.210.000. Recuerda que en interés compuesto los intereses se capitalizan.</p></div>';if(ok){localStorage.setItem('sstudy_progress','1');document.getElementById('progress').textContent='25%'}}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
