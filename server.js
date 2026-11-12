@@ -1,22 +1,18 @@
-// S.Study's — Tutor IA (Node.js 20+)
-// La clave de OpenAI permanece exclusivamente en el servidor.
+// S.Study's — Tutor IA con Gemini (Node.js 20+)
+// La clave GEMINI_API_KEY permanece exclusivamente en el servidor.
 import express from "express";
-import OpenAI from "openai";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 
 const app = express();
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const PORT = Number(process.env.PORT || 3000);
-const MODEL = process.env.OPENAI_MODEL || "gpt-6-astra";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.7-flash";
+const API_KEY = process.env.GEMINI_API_KEY;
 
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
-  .split(",").map(x => x.trim()).filter(Boolean);
-
-// La app y el endpoint se sirven desde el mismo origen: no hace falta habilitar CORS.
- // Se desactiva CSP aquí porque la interfaz inicial usa JavaScript inline y CDNs.
- // Antes de producción, sustituye el script inline por archivos JS y configura CSP estricto.
-app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: "same-origin" } }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: "same-origin" }
+}));
 app.use(express.json({ limit: "55mb" }));
 app.use(rateLimit({ windowMs: 60_000, limit: 20, standardHeaders: "draft-7", legacyHeaders: false }));
 
@@ -40,25 +36,24 @@ valor presente y futuro, descuento, anualidades y amortización. Si hay ambigüe
 explícala. No presentes una cifra como exacta si depende de supuestos. Si el usuario solo quiere entender
 un concepto, utiliza analogías y ejemplos numéricos sencillos.`;
 
-const allowedMime = new Set([
-  "application/pdf", "text/plain", "text/markdown", "text/csv",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-]);
-const imageMime = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
-
-function decodeDataUrl(value) {
+function parseDataUrl(value) {
   if (typeof value !== "string") throw new Error("Archivo sin contenido válido.");
   const match = value.match(/^data:([a-zA-Z0-9.+-]+\/[a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)$/);
   if (!match) throw new Error("Formato de archivo no válido.");
-  return { mime: match[1].toLowerCase(), data: value };
+  return { mime: match[1].toLowerCase(), base64: match[2] };
 }
 
-app.get("/health", (_req, res) => res.json({ ok: true, service: "S.Study's Tutor IA", model: MODEL }));
+app.get("/health", (_req, res) => res.json({
+  ok: true,
+  service: "S.Study's Tutor IA",
+  provider: "Google Gemini",
+  model: MODEL,
+  keyConfigured: Boolean(API_KEY)
+}));
 
 app.post("/api/ask", async (req, res) => {
   try {
+    if (!API_KEY) return res.status(503).json({ error: "Falta configurar GEMINI_API_KEY en las variables de entorno del servidor." });
     const { question, images = [], files = [] } = req.body ?? {};
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "Escribe una pregunta o ejercicio." });
@@ -72,47 +67,57 @@ app.post("/api/ask", async (req, res) => {
     if (totalEncodedBytes > 50_000_000) {
       return res.status(413).json({ error: "El total de archivos supera el límite de 50 MB por consulta." });
     }
-    const content = [{ type: "input_text", text: question.trim() }];
 
+    const parts = [{ text: question.trim() }];
     for (const image of images) {
-      const parsed = decodeDataUrl(image.data);
-      if (!imageMime.has(parsed.mime)) return res.status(400).json({ error: "Imagen no compatible." });
-      if (parsed.data.length > 12_000_000) return res.status(413).json({ error: "Imagen demasiado grande." });
-      content.push({ type: "input_image", image_url: parsed.data, detail: "high" });
+      const parsed = parseDataUrl(image.data);
+      if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(parsed.mime)) {
+        return res.status(400).json({ error: "Formato de imagen no compatible." });
+      }
+      if (parsed.base64.length > 7_000_000) return res.status(413).json({ error: "Imagen demasiado grande." });
+      parts.push({ inline_data: { mime_type: parsed.mime, data: parsed.base64 } });
     }
 
     for (const file of files) {
-      const parsed = decodeDataUrl(file.data);
-      if (!allowedMime.has(parsed.mime)) return res.status(400).json({ error: `Tipo de documento no admitido: ${parsed.mime}` });
-      if (parsed.data.length > 18_000_000) return res.status(413).json({ error: "Documento demasiado grande." });
-      const safeName = String(file.name || "material").replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 90);
-      content.push({
-        type: "input_file",
-        filename: safeName,
-        file_data: parsed.data,
-        detail: "high"
-      });
+      const parsed = parseDataUrl(file.data);
+      if (parsed.base64.length > 12_000_000) return res.status(413).json({ error: "Documento demasiado grande." });
+      if (parsed.mime === "application/pdf") {
+        parts.push({ inline_data: { mime_type: parsed.mime, data: parsed.base64 } });
+      } else if (["text/plain", "text/markdown", "text/csv"].includes(parsed.mime)) {
+        const decoded = Buffer.from(parsed.base64, "base64").toString("utf8");
+        parts.push({ text: `Contenido del archivo ${String(file.name || "material").slice(0, 100)}:\n${decoded.slice(0, 100000)}` });
+      } else {
+        return res.status(415).json({ error: `Por ahora Gemini acepta imágenes, PDF y archivos de texto. Este formato no está habilitado: ${parsed.mime}. Puedes convertirlo a PDF.` });
+      }
     }
 
-    // Si el usuario incluyó una URL, habilitamos búsqueda web para intentar consultar
-    // una página pública. Los sitios con login, paywall o bloqueos pueden no ser accesibles.
-    const hasUrl = /https?:\/\/\S+/i.test(question);
-    const response = await client.responses.create({
-      model: MODEL,
-      instructions: SYSTEM,
-      input: [{ role: "user", content }],
-      ...(hasUrl ? { tools: [{ type: "web_search" }] } : {}),
-      max_output_tokens: 2200
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`;
+    const upstream = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM }] },
+        contents: [{ role: "user", parts }],
+        generationConfig: { temperature: 0.35, maxOutputTokens: 3000 }
+      })
     });
-
-    res.json({ answer: response.output_text || "No se generó una respuesta. Intenta de nuevo." });
+    const result = await upstream.json().catch(() => ({}));
+    if (!upstream.ok) {
+      console.error("Gemini API error:", upstream.status, result?.error?.message || "unknown");
+      const status = upstream.status === 429 ? 429 : upstream.status === 400 ? 400 : 502;
+      return res.status(status).json({ error: upstream.status === 429
+        ? "Se alcanzó el límite gratuito temporal de Gemini. Espera un momento y vuelve a intentar."
+        : "Gemini no pudo procesar la consulta. Revisa el modelo, la clave y los límites de tu cuenta." });
+    }
+    const answer = (result.candidates?.[0]?.content?.parts || [])
+      .map(part => part.text || "").join("\n").trim();
+    if (!answer) return res.status(502).json({ error: "Gemini no devolvió texto. Intenta de nuevo con una pregunta más corta." });
+    res.json({ answer });
   } catch (error) {
     console.error("Tutor error:", error);
-    const message = error?.message || "Error inesperado.";
-    res.status(500).json({ error: "No fue posible procesar la consulta. Revisa el servidor y la configuración de la API.", detail: process.env.NODE_ENV === "development" ? message : undefined });
+    res.status(500).json({ error: "No fue posible procesar la consulta. Revisa los archivos y la configuración del servidor." });
   }
 });
 
 app.use(express.static(process.cwd()));
-
-app.listen(PORT, () => console.log(`S.Study's activa en http://localhost:${PORT} (modelo: ${MODEL})`));
+app.listen(PORT, "0.0.0.0", () => console.log(`S.Study's activa en puerto ${PORT} (Gemini: ${MODEL})`));
